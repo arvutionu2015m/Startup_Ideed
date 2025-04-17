@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Minu startup-ideed{% endblock %}
+{% block content %}
+
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Minu genereeritud startup-ideed</h2>
+    <div>
+      <a href="{% url 'export_ideas_csv' %}" class="btn btn-outline-success btn-sm me-2">Ekspordi CSV</a>
+      <a href="{% url 'export_ideas_pdf' %}" class="btn btn-outline-danger btn-sm">Ekspordi PDF</a>
+    </div>
+  </div>
+
+  {% if ideas %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      {% for idea in ideas %}
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            {% if idea.image %}
+              <img src="{{ idea.image.url }}" class="card-img-top" alt="Idea image">
+            {% endif %}
+            <div class="card-body">
+
+              <a href="{% url 'regenerate_idea' idea.id %}" class="btn btn-outline-info btn-sm mt-2">
+                Genereeri sarnane
+              </a>
+              
+
+              <h5 class="card-title">Kirjeldus</h5>
+              <p class="card-text">{{ idea.description|truncatewords:25 }}</p>
+
+              <hr>
+              <h6 class="card-subtitle text-muted">Ärimudel</h6>
+              <p>{{ idea.business_model|default:"–"|truncatewords:20 }}</p>
+
+              <h6 class="card-subtitle text-muted">Väärtuspakkumine</h6>
+              <p>{{ idea.value_proposition|default:"–"|truncatewords:20 }}</p>
+
+              <h6 class="card-subtitle text-muted">Sihtgrupp</h6>
+              <p>{{ idea.target_audience|default:"–"|truncatewords:20 }}</p>
+
+              {% if idea.public_id %}
+                <a href="{% url 'public_idea' idea.public_id %}" target="_blank" class="btn btn-outline-primary btn-sm mt-2">
+                  Ava avalikus vaates
+                </a>
+                <a href="{% url 'generate_qr' idea.public_id %}" target="_blank" class="btn btn-outline-secondary btn-sm mt-2">
+                  QR-kood
+                </a>
+              {% else %}
+                <p class="text-muted"><small>Puudub avalik link</small></p>
+              {% endif %}
+            </div>
+            <div class="card-footer text-muted small">
+              Loodud: {{ idea.created_at|date:"d.m.Y H:i" }}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>Sul pole veel ühtegi ideed. <a href="{% url 'generate_idea' %}">Genereeri esimene idee</a>.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

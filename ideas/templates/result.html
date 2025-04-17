@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Genereeritud Startup-Idee{% endblock %}
+{% block content %}
+<h2>Teie startup-idee</h2>
+
+<p><strong>Kirjeldus:</strong> {{ idea.description }}</p>
+
+{% if idea.image %}
+  <img src="{{ idea.image.url }}" class="img-fluid mb-3" alt="Idea image">
+{% endif %}
+
+<hr>
+<h4>Ärimudel</h4>
+<p style="white-space: pre-wrap;">{{ idea.business_model }}</p>
+
+<h4>Väärtuspakkumine</h4>
+<p style="white-space: pre-wrap;">{{ idea.value_proposition }}</p>
+
+<h4>Sihtgrupp</h4>
+<p style="white-space: pre-wrap;">{{ idea.target_audience }}</p>
+
+<a href="{% url 'my_ideas' %}" class="btn btn-outline-primary mt-4">Tagasi “Minu ideede” juurde</a>
+{% endblock %}

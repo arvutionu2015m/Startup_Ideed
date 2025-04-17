@@ -1,0 +1,29 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>Startup-ideede statistika</h1>
+
+<p><strong>Kokku ideid:</strong> {{ total_ideas }}</p>
+<p><strong>Keskmine kirjeldus:</strong> {{ avg_description_length|floatformat:0 }} tähemärki</p>
+<p><strong>Keskmine väärtuspakkumine:</strong> {{ avg_value_length|floatformat:0 }} tähemärki</p>
+
+<h3 class="mt-4">Ideede arv kasutajate kaupa</h3>
+<ul>
+  {% for user in ideas_per_user %}
+    <li>{{ user.username }} – {{ user.total }} ideed</li>
+  {% endfor %}
+</ul>
+
+<h3 class="mt-4">Top 5 enim kloonitud ideed</h3>
+<ul>
+  {% for idea in most_cloned %}
+    <li>
+      {{ idea.description|truncatewords:10 }} ({{ idea.clones }} klooni)
+      {% if idea.public_id %}
+        – <a href="{% url 'public_idea' idea.public_id %}" target="_blank">Vaata</a>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'admin:index' %}" class="btn btn-secondary mt-3">Tagasi admin paneeli</a>
+{% endblock %}

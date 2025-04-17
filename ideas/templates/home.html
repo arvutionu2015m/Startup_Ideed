@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Avaleht{% endblock %}
+{% block content %}
+<div class="text-center">
+  <h1 class="display-4">Tere tulemast Startup-Ideede Generaatorisse!</h1>
+  <p class="lead">Kirjelda oma huvivaldkonda või probleemi ja loo unikaalne startup-idee koos AI abiga.</p>
+  {% if user.is_authenticated %}
+    <a href="{% url 'generate_idea' %}" class="btn btn-primary btn-lg mt-4">Loo uus idee</a>
+  {% else %}
+    <a href="{% url 'login' %}" class="btn btn-outline-primary btn-lg mt-4">Logi sisse, et alustada</a>
+  {% endif %}
+</div>
+{% endblock %}
